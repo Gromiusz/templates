@@ -49,3 +49,6 @@ googletest/
 *.exe
 *.out
 *.app
+
+01-basics/vectormap/.vscode
+01-basics/vectormap/build
