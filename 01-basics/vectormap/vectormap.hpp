@@ -25,10 +25,6 @@ template <typename ValueType>
 class VectorMap<bool, ValueType>
 {
     static_assert(std::is_constructible<ValueType>::value, "ValueType have to have default constructor");
-    // ValueType true_value;
-    // ValueType false_value;
-    // bool false_value_initialized = false;
-    // bool true_value_initialized = false;
     std::optional<ValueType> true_value;
     std::optional<ValueType> false_value;
 
@@ -85,24 +81,10 @@ bool VectorMap<KeyType, ValueType>::isIntKey()
 template <typename ValueType>
 void VectorMap<bool, ValueType>::insert(bool key, ValueType value)
 {
-    // if(key)
-    // {
-    //     true_value = value;
-    //     true_value_initialized = true;
-    // }
-    // else
-    // {
-    //     false_value = value;
-    //     false_value_initialized = true;
-    // }
     if(key)
-    {
         *true_value = value;
-    }
     else
-    {
         *false_value = value;
-    }
 }
 
 template <typename ValueType>
