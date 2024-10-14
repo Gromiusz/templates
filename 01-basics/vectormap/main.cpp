@@ -23,4 +23,18 @@ int main()
     std::cout << std::boolalpha << VectorMap<int, char>::is_int_key << std::endl;
     std::cout << std::boolalpha << VectorMap<std::string, char>::is_int_key << std::endl;
     
+    ////////
+
+    VectorMap<bool, char> boolMap;
+    map.insert(true, 'd');
+    map[true] = 'f';           // replaces value under true
+    std::cout << map[1] << std::endl;    // prints 'f'
+    try
+    {
+        map.at(false);
+    }
+    catch(const std::out_of_range& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }

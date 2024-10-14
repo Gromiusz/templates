@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <algorithm>
 #include <iostream>
+#include <optional>
 
 template <typename KeyType, typename ValueType>
 class VectorMap
@@ -24,10 +25,13 @@ template <typename ValueType>
 class VectorMap<bool, ValueType>
 {
     static_assert(std::is_constructible<ValueType>::value, "ValueType have to have default constructor");
-    ValueType true_value;
-    ValueType false_value;
-    bool false_value_initialized = false;
-    bool true_value_initialized = false;
+    // ValueType true_value;
+    // ValueType false_value;
+    // bool false_value_initialized = false;
+    // bool true_value_initialized = false;
+    std::optional<ValueType> true_value;
+    std::optional<ValueType> false_value;
+
 
 public:
     static constexpr bool is_int_key = false;
@@ -81,15 +85,23 @@ bool VectorMap<KeyType, ValueType>::isIntKey()
 template <typename ValueType>
 void VectorMap<bool, ValueType>::insert(bool key, ValueType value)
 {
+    // if(key)
+    // {
+    //     true_value = value;
+    //     true_value_initialized = true;
+    // }
+    // else
+    // {
+    //     false_value = value;
+    //     false_value_initialized = true;
+    // }
     if(key)
     {
-        true_value = value;
-        true_value_initialized = true;
+        *true_value = value;
     }
     else
     {
-        false_value = value;
-        false_value_initialized = true;
+        *false_value = value;
     }
 }
 
@@ -98,15 +110,15 @@ ValueType &VectorMap<bool, ValueType>::operator[](bool key)
 {
     if(key)
     {
-        if(true_value_initialized) { return true_value; }
-        true_value = ValueType{};
-        return true_value;
+        if(true_value) { return *true_value; }
+        *true_value = ValueType{};
+        return *true_value;
     }
     else
     {
-        if(false_value_initialized) { return false_value; }
-        false_value = ValueType{};
-        return false_value;
+        if(false_value) { return *false_value; }
+        *false_value = ValueType{};
+        return *false_value;
     }
 }
 
@@ -115,12 +127,12 @@ ValueType &VectorMap<bool, ValueType>::at(bool key)
 {
     if(key)
     {
-        if(true_value_initialized) return true_value;
+        if(true_value) return *true_value;
         throw std::out_of_range("Key has not been initializated");
     }
     else
     {
-        if(false_value_initialized) return false_value;
+        if(false_value) return *false_value;
         throw std::out_of_range("Key has not been initializated");
     }
 }
